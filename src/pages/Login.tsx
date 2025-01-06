@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
 import {Link, useNavigate} from 'react-router-dom'; // Import Link for navigation
-import api from '../Api';
+import api from '../Api.ts';
 import {AxiosError} from "axios";
 import {useAuth} from "../context/AuthContext.tsx";
 
@@ -37,9 +37,9 @@ export default function LoginPage() {
         try {
             const response = await api.post('/auth/login/', data);
             if (response.status === 200) {
-                login(response.data); // Store the tokens in localStorage and update state
+                login(response.data);
                 setSubmitSuccess(true);
-                navigate('/dashboard'); // Navigate to the dashboard
+                navigate('/dashboard');
             }
         } catch (err) {
             const error = err as AxiosError<{ detail: string }>;
@@ -60,6 +60,24 @@ export default function LoginPage() {
             >
                 <h2 className="text-3xl font-bold mb-2 text-center text-gray-800">Welcome Back</h2>
                 <p className="text-gray-600 text-center mb-8">Log in to your account</p>
+                {submitError && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm"
+                    >
+                        {submitError}
+                    </motion.div>
+                )}
+                {submitSuccess && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm"
+                    >
+                        Login successful! Welcome back!
+                    </motion.div>
+                )}
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -104,24 +122,7 @@ export default function LoginPage() {
                         <ArrowRight className="h-5 w-5" />
                     </motion.button>
                 </form>
-                {submitError && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm"
-                    >
-                        {submitError}
-                    </motion.div>
-                )}
-                {submitSuccess && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mt-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm"
-                    >
-                        Login successful! Welcome back!
-                    </motion.div>
-                )}
+
                 <div className="mt-6 text-center">
                     <p className="text-sm text-gray-600">
                         Don't have an account?{' '}

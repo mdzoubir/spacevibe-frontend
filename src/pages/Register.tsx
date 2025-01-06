@@ -1,4 +1,4 @@
-import api from '../Api';
+import api from '../Api.ts';
 import {useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form'; // Add SubmitHandler import
 import {zodResolver} from '@hookform/resolvers/zod';

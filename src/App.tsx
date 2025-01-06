@@ -1,8 +1,11 @@
-import { Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
-import Login from './components/Login';
-import Register from './components/Register';
-import {ProtectedRoute} from "./ProtectedRoute.tsx";
+// src/App.tsx
+import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import DashboardPage from './pages/DashboardPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
+
 function App() {
     return (
         <AuthProvider>
@@ -14,13 +17,13 @@ function App() {
                     path="/dashboard"
                     element={
                         <ProtectedRoute>
-                            <div>Dashboard Page</div>
+                            <DashboardPage />
                         </ProtectedRoute>
                     }
                 />
             </Routes>
         </AuthProvider>
-    )
+    );
 }
 
-export default App
+export default App;
